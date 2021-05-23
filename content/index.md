@@ -5,10 +5,9 @@ type: page
 
 This is `lulu-blog`.
 
-The entrypoint file is `index.js`. That file imports `src/Main.elm`. The `content` folder is turned into your static pages. The rest is mostly determined by logic in the Elm code! Learn more with the resources below.
+## Games
 
-## Learn more about `elm-pages`
+- [Project 1](https://vg100-p1-xuan.netlify.app)
+- [Project 2](https://vg100-p2-xuan.netlify.app)
 
-- Documentation site: https://elm-pages.com
-- [Elm Package docs](https://package.elm-lang.org/packages/dillonkearns/elm-pages/latest/)
-- [`elm-pages` blog](https://elm-pages.com/blog)
+## Journals
