@@ -308,7 +308,7 @@ head metadata =
 
 canonicalSiteUrl : String
 canonicalSiteUrl =
-    "https://elm-pages-starter.netlify.com"
+    "https://lulu-blog.netlify.app/"
 
 
 siteTagline : String
