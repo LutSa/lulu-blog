@@ -24,6 +24,14 @@ import Pages.PagePath exposing (PagePath)
 import Pages.Platform
 import Pages.StaticHttp as StaticHttp
 import Palette
+import Model
+import Message
+import View
+import Update
+import Browser.Events exposing (onAnimationFrameDelta, onKeyDown, onKeyUp, onResize)
+import Browser
+import Html.Events exposing (keyCode)
+import Json.Decode as Decode
 
 
 manifest : Manifest.Config Pages.PathKey
@@ -44,7 +52,7 @@ manifest =
 
 
 type alias Rendered =
-    Element Msg
+    Element Message.Msg
 
 
 
@@ -52,12 +60,12 @@ type alias Rendered =
 -- main : Platform.Program Pages.Platform.Flags (Pages.Platform.Model Model Msg Metadata Rendered) (Pages.Platform.Msg Msg Metadata Rendered)
 
 
-main : Pages.Platform.Program Model Msg Metadata Rendered Pages.PathKey
+main : Pages.Platform.Program Model.Model Message.Msg Metadata Rendered Pages.PathKey
 main =
     Pages.Platform.init
-        { init = \_ -> init
+        { init = \_ -> Model.init
         , view = view
-        , update = update
+        , update = Update.update
         , subscriptions = subscriptions
         , documents = [ markdownDocument ]
         , manifest = manifest
@@ -110,30 +118,21 @@ markdownDocument =
     }
 
 
-type alias Model =
-    {}
-
-
-init : ( Model, Cmd Msg )
-init =
-    ( Model, Cmd.none )
-
-
-type alias Msg =
-    ()
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        () ->
-            ( model, Cmd.none )
-
-
---subscriptions : Model -> Sub Msg
-subscriptions _ _ _ =
-    Sub.none
-
+subscriptions _ _ model =
+    if model.player.mood == Model.Rage then
+    Sub.batch
+        [ onAnimationFrameDelta Message.Tick --the time in 1/1000s since the previous frame
+        , onKeyUp (Decode.map (keyRage False) keyCode)
+        , onKeyDown (Decode.map (keyRage True) keyCode)
+        , onResize Message.Resize
+        ]
+    else
+    Sub.batch
+        [ onAnimationFrameDelta Message.Tick --the time in 1/1000s since the previous frame
+        , onKeyUp (Decode.map (keyNormal False model) keyCode)
+        , onKeyDown (Decode.map (keyNormal True model) keyCode)
+        , onResize Message.Resize
+        ]
 
 view :
     List ( PagePath Pages.PathKey, Metadata )
@@ -143,24 +142,24 @@ view :
         }
     ->
         StaticHttp.Request
-            { view : Model -> Rendered -> { title : String, body : Html Msg }
+            { view : Model.Model -> Rendered -> { title : String, body : Html Message.Msg }
             , head : List (Head.Tag Pages.PathKey)
             }
 view siteMetadata page =
     StaticHttp.succeed
         { view =
             \model viewForPage ->
-                Layout.view (pageView model siteMetadata page viewForPage) page
+                Layout.view (pageView model siteMetadata page viewForPage) page model
         , head = head page.frontmatter
         }
 
 
 pageView :
-    Model
+    Model.Model
     -> List ( PagePath Pages.PathKey, Metadata )
     -> { path : PagePath Pages.PathKey, frontmatter : Metadata }
     -> Rendered
-    -> { title : String, body : List (Element Msg) }
+    -> { title : String, body : List (Element Message.Msg) }
 pageView model siteMetadata page viewForPage =
     case page.frontmatter of
         Metadata.Page metadata ->
@@ -314,3 +313,93 @@ canonicalSiteUrl =
 siteTagline : String
 siteTagline =
     "Starter blog for elm-pages"
+
+
+keyNormal : Bool -> Model.Model -> Int -> Message.Msg
+keyNormal on model keycode =
+    case keycode of
+        --A
+        65 ->
+            Message.AnimWalk Message.Left on
+        --D
+        68 ->
+            Message.AnimWalk Message.Right on
+        --Space
+        32 ->
+            Message.AnimCharge on
+        --B
+        66 ->
+            Message.AnimCharge on
+        --J
+        74 ->
+            Message.AnimAttack on
+        --Left
+
+       -- 37 ->
+       --     DebugLeft on
+        --Up
+        --38 ->
+        --    DebugUp on
+        --Right
+        --39 ->
+        --    DebugRight on
+        -- Down
+        --40 ->
+        --    DebugDown on
+        -- P
+       -- 80 ->
+         --   DebugPos
+        --Enter
+        --13 ->
+        --    ExitDebugMode
+        --49 ->
+        --    Jump1
+        --50 ->
+        --    JumpDiscoverI
+        --51 ->
+        --    Jump2
+        --52 ->
+        --    JumpDiscoverII
+        --53 ->
+        --    Jump3
+        _ ->
+            Message.Noop
+
+keyRage : Bool -> Int -> Message.Msg
+keyRage on keycode =
+    case keycode of
+        --A
+        68 ->
+            Message.AnimWalk Message.Left on
+        --D
+        65 ->
+            Message.AnimWalk Message.Right on
+        --Space
+        32 ->
+            Message.AnimCharge on
+        --B
+        66 ->
+            Message.AnimCharge on
+        --J
+        74 ->
+            Message.AnimAttack on
+ {-
+        --Left
+        37 ->
+            DebugLeft on
+        --Up
+        38 ->
+            DebugUp on
+        --Right
+        39 ->
+            DebugRight on
+        -- Down
+        40 ->
+            DebugDown on
+        --Enter
+        13 ->
+            ExitDebugMode
+-}
+
+        _ ->
+            Message.Noop

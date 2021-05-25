@@ -13,7 +13,9 @@ import Pages.Directory as Directory exposing (Directory)
 import Pages.ImagePath as ImagePath
 import Pages.PagePath as PagePath exposing (PagePath)
 import Palette
-
+import Model
+import View
+import Message
 
 view :
     { title : String, body : List (Element msg) }
@@ -21,28 +23,12 @@ view :
         { path : PagePath Pages.PathKey
         , frontmatter : Metadata
         }
-    -> { title : String, body : Html msg }
-view document page =
+    -> Model.Model
+    -> { title : String, body : Html Message.Msg }
+view document page model=
     { title = document.title
     , body =
-        Element.column
-            [ Element.width Element.fill ]
-            [ header page.path
-            , Element.column
-                [ Element.padding 30
-                , Element.spacing 40
-                , Element.Region.mainContent
-                , Element.width (Element.fill |> Element.maximum 800)
-                , Element.centerX
-                ]
-                document.body
-            ]
-            |> Element.layout
-                [ Element.width Element.fill
-                , Font.size 20
-                , Font.family [ Font.typeface "Roboto" ]
-                , Font.color (Element.rgba255 0 0 0 0.8)
-                ]
+        View.view model
     }
 
 
