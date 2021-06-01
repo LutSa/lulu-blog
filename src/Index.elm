@@ -18,7 +18,7 @@ view :
     List ( PagePath Pages.PathKey, Metadata )
     -> Element msg
 view posts =
-    Element.column [ Element.spacing 20 ]
+    Element.column [Element.spacing 30  ]
         (posts
             |> List.filterMap
                 (\( path, metadata ) ->
@@ -36,7 +36,7 @@ view posts =
                             else
                                 Just ( path, meta )
 
-                        Metadata.BlogIndex ->
+                        _ ->
                             Nothing
                 )
             |> List.sortWith postPublishDateDescending
@@ -111,12 +111,14 @@ postPreview post =
         , Element.Font.size 18
         ]
         [ title post.title
-        , Element.row [ Element.spacing 10, Element.centerX ]
-            [ Data.Author.view [ Element.width (Element.px 40) ] post.author
-            , Element.text post.author.name
-            , Element.text "•"
-            , Element.text (post.published |> Date.format "MMMM ddd, yyyy")
-            ]
+        ,
+        [ Element.text (post.published |> Date.format "MMMM ddd, yyyy") ]
+                |> Element.paragraph
+                    [ Element.Font.size 15
+                    , Element.Font.center
+                    , Element.Font.family [ Element.Font.typeface "Raleway" ]
+                    , Element.padding 1
+                    ]
         , post.description
             |> Element.text
             |> List.singleton

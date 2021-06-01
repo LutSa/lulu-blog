@@ -2,17 +2,19 @@
 {
 "type": "blog",
 "author": "Dillon Kearns",
-"title": "Hello `elm-pages`! 🚀",
-"description": "Here's an intro for my blog post to get you interested in reading more...",
-"image": "images/article-covers/hello.jpg",
-"published": "2019-09-21",
+"title": "GSoC Proposal",
+"description": "Here's my proposal for elm-tooling",
+"image": "images/article-covers/mountains.jpg",
+"published": "2021-04-12",
 }
 ---
 
 # Improve pure Elm markdown parser
- *Name:* Jinyi Wu
- *Nick in the Elm Slack:* Lut
- *Possible mentor:* Dillon Kearns @dillonkearns
+ Name: Jinyi Wu
+
+ Nick in the Elm Slack: Jinyi
+
+ Possible mentor: Dillon Kearns [@dillonkearns](https://github.com/dillonkearns)
 
 ### Summary
 This project is based on the idea [Improve pure Elm markdown parser](https://github.com/elm-tooling/gsoc-projects#improve-pure-elm-markdown-parser). 

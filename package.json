@@ -9,6 +9,7 @@
     "postinstall": "elm-tooling install"
   },
   "dependencies": {
+    "elm-format": "^0.8.5",
     "elm-pages": "^1.5.5"
   },
   "devDependencies": {

@@ -42,7 +42,7 @@ view : List (Element.Attribute msg) -> Author -> Element msg
 view attributes author =
     Element.image
         (Element.width (Element.px 70)
-            :: Element.htmlAttribute (Attr.class "avatar")
-            :: attributes
+            :: Element.htmlAttribute (Attr.class "")
+            :: []
         )
         { src = ImagePath.toString author.avatar, description = author.name }

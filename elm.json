@@ -20,7 +20,9 @@
             "elm/url": "1.0.0",
             "elm-community/list-extra": "8.3.0",
             "justinmimbs/date": "3.2.1",
-            "mdgriffith/elm-ui": "1.1.8"
+            "matheus23/elm-default-tailwind-modules": "2.0.1",
+            "mdgriffith/elm-ui": "1.1.8",
+            "rtfeldman/elm-css": "16.1.1"
         },
         "indirect": {
             "ThinkAlexandria/elm-html-in-elm": "1.0.1",

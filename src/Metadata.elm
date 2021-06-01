@@ -13,6 +13,8 @@ type Metadata
     | Article ArticleMetadata
     | Author Data.Author.Author
     | BlogIndex
+    | ProjectIndex
+    | ProcessIndex
 
 
 type alias ArticleMetadata =
@@ -39,8 +41,14 @@ decoder =
                         Decode.field "title" Decode.string
                             |> Decode.map (\title -> Page { title = title })
 
+                    "project-index" ->
+                        Decode.succeed ProjectIndex
+
                     "blog-index" ->
                         Decode.succeed BlogIndex
+
+                    "process-index" ->
+                         Decode.succeed ProcessIndex
 
                     "author" ->
                         Decode.map3 Data.Author.Author

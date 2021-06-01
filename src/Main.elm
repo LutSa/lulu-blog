@@ -10,6 +10,8 @@ import Head
 import Head.Seo as Seo
 import Html exposing (Html)
 import Index
+import Project
+import ProcessIndex
 import Json.Decode
 import Layout
 import Markdown.Parser
@@ -192,6 +194,19 @@ pageView model siteMetadata page viewForPage =
                 [ Element.column [ Element.padding 20, Element.centerX ] [ Index.view siteMetadata ]
                 ]
             }
+        Metadata.ProcessIndex ->
+                    { title = "elm-pages blog"
+                    , body =
+                        [ Element.column [ Element.padding 20, Element.centerX ] [ ProcessIndex.view ]
+                        ]
+                    }
+
+        Metadata.ProjectIndex ->
+                    { title = "elm-pages blog"
+                    , body =
+                        [ Element.column [ Element.padding 20, Element.centerX ] [ Project.view ]
+                        ]
+                    }
 
 
 commonHeadTags : List (Head.Tag Pages.PathKey)
@@ -288,7 +303,7 @@ head metadata =
                             , username = Nothing
                             }
 
-                Metadata.BlogIndex ->
+                _ ->
                     Seo.summaryLarge
                         { canonicalUrlOverride = Nothing
                         , siteName = "elm-pages"
