@@ -108,8 +108,13 @@ sider =
         , Element.Border.rounded 50
         ]
 
-    [avatar, name, title, githubLink]
+    [avatar, name, title, githubLink, elmpages ]
 
+elmpages =
+     Element.column
+     [Element.centerX]
+     [ Element.text "Created by"
+     , elmDocsLink ]
 
 avatar: Element msg
 avatar =
@@ -263,12 +268,13 @@ processLink currentPath=
 
 elmDocsLink : Element msg
 elmDocsLink =
-    Element.newTabLink []
+    Element.newTabLink [Element.centerX]
         { url = "https://package.elm-lang.org/packages/dillonkearns/elm-pages/latest/"
         , label =
             Element.image
                 [ Element.width (Element.px 22)
                 , Font.color Palette.color.primary
+                , Element.centerX
                 ]
                 { src = ImagePath.toString Pages.images.elmLogo, description = "Elm Package Docs" }
         }
