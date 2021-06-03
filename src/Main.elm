@@ -202,20 +202,20 @@ pageView model siteMetadata page viewForPage =
             }
 
         Metadata.BlogIndex ->
-            { title = "jinyiwu gsoc blog"
+            { title = "JinyiWu GSoC blog"
             , body =
                 [ Element.column [ Element.padding 20, Element.centerX ] [ Index.view siteMetadata ]
                 ]
             }
         Metadata.ProcessIndex ->
-                    { title = "jinyiwu gsoc process"
+                    { title = "JinyiWu GSoCc process"
                     , body =
                         [ Element.column [ Element.width Element.fill,  Element.centerX ] [ ProcessIndex.view model]
                         ]
                     }
 
         Metadata.ProjectIndex ->
-                    { title = "jinyiwu elm games"
+                    { title = "JinyiWu VG100 elm games"
                     , body =
                         [ Element.column [ Element.padding 20, Element.centerX ] [ Project.view ]
                         ]
