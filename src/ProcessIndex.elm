@@ -104,6 +104,7 @@ done =
     boardEl (Element.rgba255 240 242 250 0.3)
             [ header "Done"
             , doneCard "Set up this GSoC blog by elm-pages and elm-ui"
+            , doneCard "Submit minor bug fix to elm-markdown"
             , doneCard "Learn parsing technologies from elm-review and elm-syntax"
             , doneCard "Wrap around my previous elm games by elm-pages and create-elm-app"
             ]
