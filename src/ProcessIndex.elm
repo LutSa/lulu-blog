@@ -92,8 +92,9 @@ inProcess : Element msg
 inProcess =
     boardEl (Element.rgb255 255 255 255)
         [ header "Doing"
-        , inProcessCard "Clarify HTML fallback spec"
         , inProcessCard "Write blog posts and github discussions"
+        , inProcessCard "Pick and solve some GFM spec parsing issues at will"
+        , inProcessCard "Clarify HTML (or other falling cases) fallback spec"
         ]
 
 doneCard text=
