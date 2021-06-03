@@ -19,35 +19,39 @@ import Showcase
 import Css exposing (..)
 import Html exposing (..)
 import Html.Styled.Attributes exposing (css)
-view :
-    { title : String, body : List (Element msg) }
-    ->
-        { path : PagePath Pages.PathKey
-        , frontmatter : Metadata
-        }
-    -> { title : String, body : Html msg }
-view document page =
+
+view model document page =
     { title = document.title
-    , body = Element.column [ Element.centerX
+    , body = Element.row [ Element.centerX
                              , Element.centerY
                              , Element.Background.color (Element.rgba255 240 242 245 0.502)
                              , Element.width Element.fill
-                             , Element.paddingEach { top=50, right=80, bottom=0, left=80 }
+                             , Element.height Element.fill
+                             , Element.paddingEach { top=40, right=50, bottom=40, left=50 }
                             ]
-                    [ buttons page.path
-                    , Element.row
+
+                    [   (if (Tuple.first model.size) >1000 then Element.el [Element.paddingEach
+                    {top = 70, bottom = 1, right = 0,left = 0}
+                    , Element.height (Element.fillPortion 2)
+                    ] sider
+
+                        else Element.none)
+                    , Element.column
                                  [ Element.width Element.fill
+                                 , Element.height Element.fill
                                  , Element.Background.color (Element.rgb255 255 255 255)
                                  , Element.Border.roundEach
+
                                        { topLeft = 50
-                                       , topRight = 0
+                                       , topRight = 50
                                        , bottomLeft = 50
                                        , bottomRight = 50
                                        }
-                                 , Element.centerX
+                                 , Element.alignRight
                                  ]
-                                 [ sider
-                                 , pageBody document.body
+
+                                 [ buttons page.path
+                                 , pageBody document.body page.path
                                  ]
 
                     ]
@@ -65,30 +69,29 @@ view document page =
 
 buttons currentPath=
      Element.row [ Element.spacing 15
-                 , Element.alignRight
-                 , Element.paddingXY 200 10
-                 , Element.Background.color (Element.rgb255 255 255 255)
-                 , Element.Border.roundEach
-                                      { topLeft = 250
-                                      , topRight = 100
-                                      , bottomLeft = 0
-                                      , bottomRight= 0
-                                      }
+                 , Element.width (Element.shrink)
+                 , Element.Region.navigation
+                 , Element.centerX
+                 , Element.padding 10
+                 , Element.Background.color (Element.rgb255 250 255 255)
+
                  ]
-                      [ processLink currentPath
-                      , highlightableLink currentPath Pages.pages.blog.directory "Blog"
-                      , projectLink currentPath
+                      [ Element.el[Element.centerX] (processLink currentPath)
+                      , Element.el[Element.centerX] (highlightableLink currentPath Pages.pages.blog.directory "Blog")
+                      , Element.el[Element.centerX] (projectLink currentPath)
                       ]
 
-pageBody body=  Element.column
+pageBody body currentPath=  Element.column
     [ Element.padding 30
     , Element.spacing 40
     , Element.Region.mainContent
-    , Element.width (Element.fill |> Element.maximum 800)
+    , Element.width (Element.fill )
     , Element.Background.color (Element.rgb 12 11 11)
     , Element.height Element.fill
-    , Element.Border.rounded 50
+    , Element.Border.roundEach {topLeft = 0, topRight = 0, bottomLeft = 50, bottomRight = 50}
     , Element.centerX
+    , Element.scrollbarY
+    , Element.scrollbarX
     ]
     body
 
@@ -98,6 +101,7 @@ sider =
     Element.column
         [ Element.spacing 30
         , Element.centerY
+        , Element.Region.aside
         , Element.Background.color (Element.rgb 12 11 11)
         , Element.padding 50
         , Element.height Element.fill
@@ -158,11 +162,13 @@ highlightableLink currentPath linkDirectory displayName =
     in
     Element.link
         (if isHighlighted then
-            [Element.Background.color (Element.rgb255 186 85 211)
+            [Element.centerX
+            , Element.Background.color (Element.rgb255 186 85 211)
             , Element.Border.rounded 20
             , Font.color (Element.rgba255 255 255 255 0.7)
             , Element.padding 10
             , Font.size 30
+
             , Element.Border.shadow
                                   { offset = ( 1, 2 )
                                   , blur = 1
@@ -197,7 +203,8 @@ githubRepoLink =
 projectLink currentPath=
     if currentPath == Pages.pages.project then
         Element.link
-                [ Element.Background.color (Element.rgb255 186 85 211)
+                [ Element.centerX
+                , Element.Background.color (Element.rgb255 186 85 211)
                               , Element.Border.rounded 20
                               , Font.color (Element.rgba255 255 255 255 0.7)
                               , Element.padding 10
@@ -230,6 +237,7 @@ processLink currentPath=
                               , Element.Border.rounded 20
                               , Font.color (Element.rgba255 255 255 255 0.7)
                               , Element.padding 10
+                              , Element.centerX
                               , Font.size 30
                               , Element.Border.shadow
                                                                 { offset = ( 1, 2 )

@@ -12,10 +12,11 @@ import Palette
 
 
 
-view : Element msg
-view  = Element.row
-        [ Element.spacing 10
+view model = Element.row
+        [ Element.width Element.fill
+         , Element.spacing 10
         , Element.centerX
+
         ]
         [ todo
         , inProcess
@@ -24,7 +25,8 @@ view  = Element.row
 
 header text=
     Element.el
-                [ Element.centerX
+                [ Element.width Element.fill
+                , Element.centerX
                 , Element.centerX
                 , Font.extraBold
                 , Font.size 28
@@ -34,8 +36,8 @@ header text=
 
 boardEl color=
     Element.column
-    [ Element.width <| Element.px 250
-    , Element.height <| Element.px 600
+    [ Element.width Element.fill
+                  ,Element.height <| Element.px 600
     , Element.spacing 30
     , Element.padding 10
     , Element.Border.width 1
@@ -45,9 +47,9 @@ boardEl color=
     [ Element.Border.color (Element.rgba255 0 0 0 0.2)]
     ]
 
-cardEl color=
-    Element.el
-            [ Element.width <| Element.px 230
+cardEl color a=
+    Element.paragraph
+            [ Element.width Element.fill
             , Element.height <| Element.px 200
             , Element.Background.color color
             , Element.padding 8
@@ -66,7 +68,9 @@ cardEl color=
                                                     , color =
                                                             Element.rgb (238 / 255) (238 / 255) (238 / 255)
                                                     }]
+
             ]
+            [a]
 
 todo : Element msg
 todo =
@@ -87,7 +91,7 @@ todoCard2 =
 inProcess : Element msg
 inProcess =
     boardEl (Element.rgb255 255 255 255)
-        [ header "In Process"
+        [ header "Doing"
         , cardEl (Element.rgba255 240 242 250 0.3)
                                (Element.text ("Done item"))
         , cardEl (Element.rgba255 240 242 250 0.3)

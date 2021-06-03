@@ -1,5 +1,6 @@
 module Main exposing (main)
 
+import Browser.Dom exposing (Viewport, getViewport)
 import Color
 import Data.Author as Author
 import Date
@@ -26,7 +27,8 @@ import Pages.PagePath exposing (PagePath)
 import Pages.Platform
 import Pages.StaticHttp as StaticHttp
 import Palette
-
+import Browser.Events
+import Task
 
 manifest : Manifest.Config Pages.PathKey
 manifest =
@@ -113,28 +115,39 @@ markdownDocument =
 
 
 type alias Model =
-    {}
+    {size: (Float, Float)}
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model, Cmd.none )
+    ( {size=(0, 0)}, Cmd.batch
+                             [ Task.perform GetViewport getViewport ] )
 
 
-type alias Msg =
-    ()
+type Msg =
+    Resize Int Int
+    | GetViewport Viewport
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        () ->
-            ( model, Cmd.none )
-
+        Resize width height ->
+            ( { model
+                | size = ((toFloat width), (toFloat height))
+              }
+            , Cmd.none
+            )
+        GetViewport {viewport} ->
+            ( { model
+                            | size = ((viewport.width), (viewport.height))
+                          }
+                        , Cmd.none
+                        )
 
 --subscriptions : Model -> Sub Msg
 subscriptions _ _ _ =
-    Sub.none
+    Browser.Events.onResize Resize
 
 
 view :
@@ -152,7 +165,7 @@ view siteMetadata page =
     StaticHttp.succeed
         { view =
             \model viewForPage ->
-                Layout.view (pageView model siteMetadata page viewForPage) page
+                Layout.view model (pageView model siteMetadata page viewForPage) page
         , head = head page.frontmatter
         }
 
@@ -197,7 +210,7 @@ pageView model siteMetadata page viewForPage =
         Metadata.ProcessIndex ->
                     { title = "elm-pages blog"
                     , body =
-                        [ Element.column [ Element.padding 20, Element.centerX ] [ ProcessIndex.view ]
+                        [ Element.column [ Element.width (Debug.log "length" Element.fill),  Element.centerX ] [ ProcessIndex.view model]
                         ]
                     }
 

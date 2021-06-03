@@ -27,7 +27,7 @@ project1Link =
             { url = "https://vg100-p1-xuan.netlify.com/"
             , label =
                 Element.image
-                    [ Element.width (Element.px 700)
+                    [ Element.width (Element.fill|>Element.maximum 800)
                     , Font.color Palette.color.primary
                     ]
                     { src = ImagePath.toString Pages.images.project1, description = "Github repo" }
@@ -51,7 +51,7 @@ project2Link =Element.el[ Element.Border.width 1
         { url = "https://vg100-p2-xuan.netlify.com/"
         , label =
             Element.image
-                [ Element.width (Element.px 700)
+                [ Element.width (Element.fill|>Element.maximum 800)
                 , Font.color Palette.color.primary
                 ]
                 { src = ImagePath.toString Pages.images.project2, description = "Github repo" }
