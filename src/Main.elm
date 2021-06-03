@@ -210,7 +210,7 @@ pageView model siteMetadata page viewForPage =
         Metadata.ProcessIndex ->
                     { title = "jinyiwu gsoc process"
                     , body =
-                        [ Element.column [ Element.width (Debug.log "length" Element.fill),  Element.centerX ] [ ProcessIndex.view model]
+                        [ Element.column [ Element.width Element.fill,  Element.centerX ] [ ProcessIndex.view model]
                         ]
                     }
 
