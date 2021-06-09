@@ -92,7 +92,6 @@ inProcess : Element msg
 inProcess =
     boardEl (Element.rgb255 255 255 255)
         [ header "Doing"
-        , inProcessCard "Finish TODO of reporting fails in Container Blocks"
         , inProcessCard "Nested list specs"
         , inProcessCard "Write blog posts and github discussions"
         , inProcessCard "Pick and solve some GFM spec parsing issues at will"
@@ -106,6 +105,7 @@ done : Element msg
 done =
     boardEl (Element.rgba255 240 242 250 0.3)
             [ header "Done"
+            , doneCard "Finish TODO of reporting fails in Container Blocks"
             , doneCard "Fix nested link reference definition"
             , doneCard "Set up this GSoC blog by elm-pages and elm-ui"
             , doneCard "Submit minor bug fix to elm-markdown"
