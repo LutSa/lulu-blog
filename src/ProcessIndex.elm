@@ -13,8 +13,7 @@ import Palette
 
 
 view model =
-    [ todo
-    , inProcess
+    [ inProcess
     , done
     ]
     |> Element.row
@@ -78,37 +77,36 @@ cardEl color a=
 todoCard text=
     cardEl (Element.rgb255 255 255 255) (Element.text text)
 
-todo : Element msg
-todo =
-    boardEl (Element.rgba255 240 242 250 0.3)
-            [ header "To Do"
-            , todoCard "Complete functions of this GSoC blog"
-            ]
 
-inProcessCard text=
-    cardEl (Element.rgba255 240 242 250 0.3) (Element.text text)
+
+inProcessCard text url =
+    cardEl (Element.rgba255 240 242 250 0.3) (Element.link []
+                                                  { url = url
+                                                  , label = Element.text text
+                                                  } )
 
 inProcess : Element msg
 inProcess =
     boardEl (Element.rgb255 255 255 255)
-        [ header "Doing"
-        , inProcessCard "Nested list specs"
-        , inProcessCard "Write blog posts and github discussions"
-        , inProcessCard "Pick and solve some GFM spec parsing issues at will"
-        , inProcessCard "Clarify HTML (or other falling cases) fallback spec"
-        ]
+        [ header "TO DO (Unfinished Discussions)"
+                    , inProcessCard "Spec for HTML Inlines vs. HTML Blocks" "https://github.com/dillonkearns/elm-markdown/discussions/102"
+                    , inProcessCard "Explicit Specification for elm-markdown's HTML Parsing Markdown Extension" "https://github.com/dillonkearns/elm-markdown/discussions/99"
+                    , inProcessCard "HTML Fallback Handling" "https://github.com/dillonkearns/elm-markdown/discussions/93"
+                    , inProcessCard "The previous compiler list length issue in entity parsing" "https://github.com/dillonkearns/elm-markdown/discussions/90"
+                    ]
 
-doneCard text=
-    cardEl (Element.rgb255 255 255 255) (Element.text text)
+doneCard text url=
+    cardEl (Element.rgb255 255 255 255) (Element.link []
+                                                                                          { url = url
+                                                                                          , label = Element.text text
+                                                                                          } )
 
 done : Element msg
 done =
     boardEl (Element.rgba255 240 242 250 0.3)
-            [ header "Done"
-            , doneCard "Finish TODO of reporting fails in Container Blocks"
-            , doneCard "Fix nested link reference definition"
-            , doneCard "Set up this GSoC blog by elm-pages and elm-ui"
-            , doneCard "Submit minor bug fix to elm-markdown"
-            , doneCard "Learn parsing technologies from elm-review and elm-syntax"
-            , doneCard "Wrap around my previous elm games by elm-pages and create-elm-app"
+            [ header "Done (Merged Code)"
+            , doneCard "Improve list item parsing and indented code blocks parsing" "https://github.com/dillonkearns/elm-markdown/pull/88"
+            , doneCard "Fix failing case of nested link references by making rawBlockParser recursive" "https://github.com/dillonkearns/elm-markdown/pull/84"
+            , doneCard "Fix minor emphasis parsing cases" "https://github.com/dillonkearns/elm-markdown/pull/82"
+            , doneCard "Fix minor heading parsing cases related to whitespace" "https://github.com/dillonkearns/elm-markdown/pull/77"
             ]
